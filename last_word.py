@@ -1,52 +1,63 @@
-import pandas as pd
-from pandas import DataFrame
+import pandas
 from random import randint
 import os
 
-path = os.path.join(os.getcwd() + "\\"  + "data.xlsx")
-print(path)
-words = pd.read_excel(path)
 
-words = words['kword']
-word_result = [i for i in words]
+read = pandas.read_excel(os.getcwd() + '\\word.xlsx')
+words = [i for i in read[0]]
 
-class pick_word():
-    def __init__(self, words):
-        self.word_list = words
+past_word = []
+
+class pick():
+    def __init__(self, word_list):
+        self.word_list = word_list
+        
+    def start(self):
+        num = randint(0, len(self.word_list) - 1)
+        past_word.append(self.word_list[num])
+        self.word_list.remove(self.word_list[num])
+        return self.word_list[num]
+
+    def pick_word(self, player_word):
+        for i in self.word_list:
+            if i == player_word:
+                self.word_list.remove(player_word)
+
+        result =[]
+        for i in self.word_list:
+            if i.startswith(player_word[len(player_word) - 1]):
+                result.append(i)
     
-    def pick(self, player_word):
+        result.sort(key=lambda item: (len(item), item), reverse=True)
+        word = result[0]
+        past_word.append(word)
+        self.word_list.remove(word)
+        return word
+        
 
-        kword_list = []
-        last_word = player_word[len(player_word) - 1]
+pick = pick(words)
+bot_word = pick.start()
+print(bot_word)
 
-        kword_list = [i for i in self.word_list if i[0] in last_word]
-
-        num = randint(0, len(kword_list))
-
-        return kword_list[num]
-
-    def add(self, player_word):
-        word_result.append(player_word)
-                
-
-bot = pick_word(words)
 
 while True:
     player_word = input('단어 입력 : ')
+    a = [i for i in past_word if i == player_word]
+    print(type(a))
+    if a != []:
+        print('Retry')
+    elif len(player_word) < 2:
+        print('Retry')
+    elif not bot_word[len(bot_word) - 1] == player_word[0]:
+        print('Retry')
+    else:
+        try:
+            bot_word = pick.pick_word(player_word)
+        except IndexError:
+            print('you win!!')
+            exit()
+        past_word.append(player_word)
+        print(bot_word)
 
-    for i in words:
-        if not(i == player_word):
-            bot.add(player_word)
-            df = DataFrame({"kword": word_result}, index=None)
-            writer = pd.ExcelWriter('data.xlsx')
-            df.to_excel(writer, sheet_name='Sheet1')
-            writer.close()
-            break
+    a = []
 
-    try:
-        bot_word = bot.pick(player_word)
-    except IndexError:
-        print('you win!!')
-        quit()
-    
-    print(bot_word)
