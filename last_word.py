@@ -43,7 +43,6 @@ print(bot_word)
 while True:
     player_word = input('단어 입력 : ')
     a = [i for i in past_word if i == player_word]
-    print(type(a))
     if a != []:
         print('Retry')
     elif len(player_word) < 2:
