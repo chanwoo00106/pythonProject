@@ -24,8 +24,10 @@ async def on_message(message):
 
         rankingDic = commit.ranking()
         say = "```\n"
+        j = 1
         for i in rankingDic:
-            say = say + f"{i} : {rankingDic[i]} commit\n"
+            say = say + f"{j}. {i} : {rankingDic[i]} commit\n"
+            j = j+1
         say = say + "```"
         await channel.send(say)
 
