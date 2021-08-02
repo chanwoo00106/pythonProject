@@ -3,8 +3,6 @@ from bs4 import BeautifulSoup
 import json
 
 data = json.load(open('./ranking.json', 'r', encoding='utf-8'))
-rankingDic = {}
-
 
 def commitNum(name):
     html = get(f'https://github.com/{name}')
@@ -33,6 +31,7 @@ def commitNum(name):
 
 
 def ranking():
+    rankingDic = {}
     for i in range(0, 5):
         topCommitUser = [0, ""]
         tempJ = 0
