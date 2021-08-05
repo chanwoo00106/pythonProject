@@ -18,7 +18,6 @@ async def alarm():
             if datetime.datetime.now().hour >= 21 and (datetime.datetime.now().minute == 0 or datetime.datetime.now().minute == 30):
                 await user.send('커밋해!!!')
                 await asyncio.sleep(60)
-
             elif not complateDay and datetime.datetime.now().minute == 0:
                 await user.send('커밋해라!! 인간')
                 await asyncio.sleep(60)
@@ -26,9 +25,9 @@ async def alarm():
                 await asyncio.sleep(1)
         
         while complateDay:
-            if datetime.datetime.now().hour == 0:
+            if datetime.datetime.now().hour == 24:
                 complateDay = False
-                await asyncio.sleep(60)
+                await asyncio.sleep(2)
 
 @client.event
 async def on_ready():
@@ -45,7 +44,7 @@ async def on_message(message):
     if message.author.bot:
         return None
     
-    if message.content.startswith('!커밋 완료'): 
+    if message.content.startswith('!커밋 완료') and message.author.id == "개인 id" and not complateDay:
         complateDay = True
         print('hello')
 
