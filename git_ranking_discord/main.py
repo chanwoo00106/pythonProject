@@ -11,23 +11,27 @@ complateDay = False
 
 async def alarm():
     global complateDay
-    user = client.get_channel("your channel id")
+    user = client.get_channel('your channel id')
 
     while True:
         while not complateDay:
-            if datetime.datetime.now().hour >= 21 and (datetime.datetime.now().minute == 0 or datetime.datetime.now().minute == 30):
+            now = datetime.datetime.now()
+            if now.hour >= 19 and (now.minute == 0 or now.minute == 30):
                 await user.send('커밋해!!!')
                 await asyncio.sleep(60)
-            elif not complateDay and datetime.datetime.now().minute == 0:
+            elif not complateDay and now.minute == 0:
                 await user.send('커밋해라!! 인간')
                 await asyncio.sleep(60)
             else:
                 await asyncio.sleep(1)
         
         while complateDay:
-            if datetime.datetime.now().hour == 24:
+            if now.hour == 24:
                 complateDay = False
-                await asyncio.sleep(2)
+                await asyncio.sleep(1)
+            else:
+                await asyncio.sleep(1)
+
 
 @client.event
 async def on_ready():
@@ -44,11 +48,13 @@ async def on_message(message):
     if message.author.bot:
         return None
     
-    if message.content.startswith('!커밋 완료') and message.author.id == "개인 id" and not complateDay:
+    if message.content.startswith('!커밋 완료') and message.author.id == 'your id' and not complateDay:
         complateDay = True
-        print('hello')
+        channel = message.channel
+        await channel.send('확인!')
+        
 
-    if message.content.startswith('git ranking'):
+    if message.content == 'git ranking':
         print('git ranking 준비중')
         channel = message.channel
 
@@ -58,7 +64,7 @@ async def on_message(message):
         for i in rankingDic:
             say = say + f"{j}. {i} : {rankingDic[i]} commit\n"
             j = j + 1
-        embed = discord.Embed(title="Commit Ranking", description=say, color=0xdff9fb)
+        embed = discord.Embed(title="1-2 Commit Ranking", description=say, color=0xdff9fb)
         await channel.send(embed=embed)
 
     if message.content.startswith('!git '):
@@ -71,6 +77,5 @@ async def on_message(message):
             await channel.send(embed=embed)
         except AttributeError:
             await channel.send('없는 id 입니다.\n다시 검색해 주세요')
-
 
 client.run(token)
