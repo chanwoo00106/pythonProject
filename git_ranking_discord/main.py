@@ -27,7 +27,7 @@ async def alarm():
         
         while complateDay:
             now = datetime.datetime.now()
-            if now.hour == 24:
+            if now.hour == 0:
                 complateDay = False
                 await asyncio.sleep(1)
             else:
