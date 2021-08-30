@@ -16,10 +16,10 @@ async def alarm():
     while True:
         while not complateDay:
             now = datetime.datetime.now()
-            if now.hour >= 19 and (now.minute == 0 or now.minute == 30):
+            if now.hour >= 9 and (now.minute == 0 or now.minute == 30):
                 await user.send('커밋해!!!')
                 await asyncio.sleep(60)
-            elif not complateDay and now.minute == 0:
+            elif now.minute == 0:
                 await user.send('커밋해라!! 인간')
                 await asyncio.sleep(60)
             else:
@@ -27,7 +27,9 @@ async def alarm():
         
         while complateDay:
             now = datetime.datetime.now()
-            if now.hour == 0:
+            # 한국 시간과 서버를 돌리는 컴퓨터의 시간차가 있음
+            # 여기서 23시는 한국에서 9시
+            if now.hour == 23:
                 complateDay = False
                 await asyncio.sleep(1)
             else:
