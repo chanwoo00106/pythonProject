@@ -1,0 +1,3 @@
+0 Sedan
+1 SUV
+2 Truck
