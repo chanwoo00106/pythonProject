@@ -70,6 +70,27 @@ async def on_message(message):
         embed = discord.Embed(title="1-2 Commit Ranking", description=say, color=0xdff9fb)
         await channel.send(embed=embed)
 
+    if message.content.startswith('git ranking '):
+        print('git ranking 준비중')
+        channel = message.channel
+        message.content = message.content.replace('git ranking ', '')
+        try:
+            if int(message.content) <= 18:
+                rankingDic = commit.rankingNum(int(message.content))
+            else:
+                await channel.send('18위 까지')
+                return None
+        except:
+            await channel.send('`git ranking {숫자}` 형식으로 작성')
+            return None
+        j = 1
+        say = ""
+        for i in rankingDic:
+            say = say + f"{j}. {i} : {rankingDic[i]} commit\n"
+            j = j + 1
+        embed = discord.Embed(title=f"1-2 Commit Ranking top {message.content}", description=say, color=0xdff9fb)
+        await channel.send(embed=embed)
+
     if message.content.startswith('!git '):
         channel = message.channel
         print('!git 준비중')
