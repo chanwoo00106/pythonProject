@@ -5,6 +5,11 @@ import json
 data = json.load(open('./ranking.json', 'r', encoding='utf-8'))
 
 def commitNum(name):
+
+    for i in range(1, 19):
+        if data.get(f'{i}')[0]['name'] == name:
+            name = data[f'{i}'][0]['id']
+
     html = get(f'https://github.com/{name}')
 
     soup = BeautifulSoup(html.text, 'html.parser')
@@ -32,7 +37,7 @@ def commitNum(name):
 
 def ranking():
     rankingDic = {}
-    for i in range(0, 5):
+    for i in range(0, 15):
         topCommitUser = [0, ""]
         tempJ = 0
 
