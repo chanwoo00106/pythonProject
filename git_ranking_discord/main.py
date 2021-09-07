@@ -75,10 +75,10 @@ async def on_message(message):
         channel = message.channel
         message.content = message.content.replace('git ranking ', '')
         try:
-            if int(message.content) <= 18:
+            if 0 < int(message.content) and int(message.content) <= 18:
                 rankingDic = commit.rankingNum(int(message.content))
             else:
-                await channel.send('18위 까지')
+                await channel.send('0 ~ 18위 까지')
                 return None
         except:
             await channel.send('`git ranking {숫자}` 형식으로 작성')
