@@ -16,6 +16,11 @@
 깃허브 커밋 수 랭킹을 보여주거나 자신의 커밋 수를 알려주는<br>
 discord bot 입니다
 
+```
+pip install python-dotenv
+```
+
+
 ### 부족한 부분
 
 1. github page가 바뀌면 망함        

@@ -37,7 +37,7 @@ def commitNum(name):
 
             with open('./ranking.json', 'w', encoding='utf-8') as outfile:
                 json.dump(data, outfile, indent=4, ensure_ascii=False)
-    return num
+    return [num, f'https://github.com/{name}']
 
 
 def ranking():
