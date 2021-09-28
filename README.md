@@ -23,12 +23,7 @@ pip install python-dotenv
 
 ### 부족한 부분
 
-1. github page가 바뀌면 망함        
+1. github page가 바뀌면 망함        해결(?)
 2. ranking 보여주는 게 너무 느림     해결
 3. 다른 서버로 가면 에러가 뜸        해결
 4. 비동기 처리가 안됐음              해결
-
-## [AI](/AI)
-
-AI 수업때 들어은 것들<br>
-결론 : pandas 장난아니다
