@@ -6,16 +6,17 @@ from dotenv import load_dotenv
 import os
 load_dotenv()
 TOKEN = os.environ.get('TOKEN')
+ROOMID = os.environ.get('ROOMID')
 
-token = 'TOKEN'
 client = discord.Client()
 
 
 complateDay = False
 
+
 async def alarm():
     global complateDay
-    user = client.get_channel('your channel id')
+    user = client.get_channel(ROOMID)
 
     while True:
         while not complateDay:
@@ -28,7 +29,7 @@ async def alarm():
                 await asyncio.sleep(60)
             else:
                 await asyncio.sleep(1)
-        
+
         while complateDay:
             now = datetime.datetime.now()
             # 한국 시간과 서버를 돌리는 컴퓨터의 시간차가 있음
@@ -54,12 +55,11 @@ async def on_message(message):
     global complateDay
     if message.author.bot:
         return None
-    
-    if message.content.startswith('!커밋 완료') and message.author.id == 'your id' and not complateDay:
+
+    if message.content.startswith('!커밋 완료') and message.author.id == ROOMID and not complateDay:
         complateDay = True
         channel = message.channel
         await channel.send('확인!')
-        
 
     if message.content == 'git ranking':
         print('git ranking 준비중')
@@ -71,7 +71,8 @@ async def on_message(message):
         for i in rankingDic:
             say = say + f"{j}. {i} : {rankingDic[i]} commit\n"
             j = j + 1
-        embed = discord.Embed(title="1-2 Commit Ranking", description=say, color=0xdff9fb)
+        embed = discord.Embed(title="1-2 Commit Ranking",
+                              description=say, color=0xdff9fb)
         await channel.send(embed=embed)
 
     if message.content.startswith('git ranking '):
@@ -79,7 +80,7 @@ async def on_message(message):
         channel = message.channel
         message.content = message.content.replace('git ranking ', '')
         try:
-            if 0 < int(message.content) and int(message.content) <= 18:
+            if int(message.content) > 0 and int(message.content) <= 18:
                 rankingDic = commit.rankingNum(int(message.content))
             else:
                 await channel.send('0 ~ 18위 까지')
@@ -92,19 +93,22 @@ async def on_message(message):
         for i in rankingDic:
             say = say + f"{j}. {i} : {rankingDic[i]} commit\n"
             j = j + 1
-        embed = discord.Embed(title=f"1-2 Commit Ranking top {message.content}", description=say, color=0xdff9fb)
+        embed = discord.Embed(
+            title=f"1-2 Commit Ranking top {message.content}", description=say, color=0xdff9fb)
         await channel.send(embed=embed)
 
-    if message.content.startswith('!git '):
+    if message.content.startswith('!git ') or message.content.startswith('!햣 '):
         channel = message.channel
         print('!git 준비중')
-        message.content = message.content.replace('!git ', '')
+        message.content = message.content.replace(
+            '!git ', '').replace('!햣 ', '')
         try:
             commits = commit.commitNum(message.content)
-            embed = discord.Embed(title=f'{message.content}님의 commit 수는 {commits[0]}개 입니다', color=0xdff9fb)
+            embed = discord.Embed(
+                title=f'{message.content}님의 commit 수는 {commits[0]}개 입니다', color=0xdff9fb)
             await channel.send(embed=embed)
             await channel.send(commits[1])
         except AttributeError:
             await channel.send('없는 id 입니다.\n다시 검색해 주세요')
 
-client.run(token)
+client.run(TOKEN)
