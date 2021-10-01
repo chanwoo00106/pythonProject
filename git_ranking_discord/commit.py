@@ -1,6 +1,10 @@
 from requests import get
 from bs4 import BeautifulSoup
 import json
+from dotenv import load_dotenv
+import os
+load_dotenv()
+FILTER = os.environ.get('FILTER')
 
 
 def commitNum(name):
@@ -34,8 +38,9 @@ def commitNum(name):
             except ValueError:
                 pass
 
-    if name == 'baekteun':
-        num -= 1000
+    # 거를 사람 정하기
+    # if name == FILTER:
+    #     num -= 1000
 
     for i in range(1, 19):
         user = data.get(str(i))[0]
