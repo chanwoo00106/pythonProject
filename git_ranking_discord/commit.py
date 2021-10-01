@@ -16,6 +16,9 @@ def commitNum(name):
 
     num = 0
 
+    if soup.select(".filter-list.small li") == []:
+        return None
+
     for i in soup.select(".filter-list.small li"):
         html = get(
             f'https://github.com/users/{name}/contributions?tab=overview&from={int(i.get_text())}-01-01&to={int(i.get_text())}-12-31')

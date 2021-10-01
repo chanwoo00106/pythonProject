@@ -108,7 +108,7 @@ async def on_message(message):
                 title=f'{message.content}님의 commit 수는 {commits[0]}개 입니다', color=0xdff9fb)
             await channel.send(embed=embed)
             await channel.send(commits[1])
-        except AttributeError:
+        except TypeError:
             await channel.send('없는 id 입니다.\n다시 검색해 주세요')
 
 client.run(TOKEN)
